@@ -13,8 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import re_path
+from django.urls import re_path, include
 from django.contrib.sitemaps import views as sitemap_views
 
 from blog.views import post_list, post_detail, CategoryView, TagView, PostDetailView, IndexView, SearchView, AuthorView
@@ -22,7 +24,6 @@ from comment.views import CommentView
 from config.views import LinkListView
 from .custom_site import custom_site
 from blog.sitemap import PostSitemap
-
 
 
 urlpatterns = [
@@ -40,6 +41,6 @@ urlpatterns = [
     re_path('^search/$', SearchView.as_view(), name='search'),
     re_path('^author/(?P<owner_id>\d+)/$', AuthorView.as_view(), name='author'),
     re_path('^comment/$', CommentView.as_view(), name='comment'),
-    re_path('^sitemap\.xml$',sitemap_views.sitemap, {'sitemaps': {'post': PostSitemap}}),
-
-]
+    re_path('^sitemap\.xml$', sitemap_views.sitemap, {'sitemaps': {'post': PostSitemap}}),
+    re_path('^ckeditor/', include('ckeditor_uploader.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -83,6 +83,7 @@ class Post(models.Model):
     pv = models.PositiveIntegerField(default=1)
     uv = models.PositiveIntegerField(default=1)
 
+
     class Meta:
         verbose_name = verbose_name_plural = "文章"
         ordering = ['-id']  #根据id降序排列
